@@ -39,6 +39,10 @@ class NoDoorFree(DomainError):
     status, type, title = 409, "/errors/no-door-free", "No free door of that size"
 
 
+class CodeUsed(DomainError):
+    status, type, title = 409, "/errors/code-used", "This code has already opened its door"
+
+
 class NoSuchCode(DomainError):
     status, type, title = 404, "/errors/no-such-code", "No such code"
 

@@ -23,7 +23,8 @@ def choose_door(session: Session, tower_id: int, size_class: str) -> Door | None
 
 
 def unique_code(session: Session, tower_id: int, key: str) -> tuple[str, str]:
-    """A fresh code whose hash no parcel in this tower still holds unused, so a code always names one door."""
+    """A fresh code whose hash no uncollected parcel in this tower already holds, so a code always names one door.
+    (A collected parcel's code can come round again: it can never open anything a second time.)"""
     while True:
         code = issue_code()
         code_hash = hash_code(key, code)

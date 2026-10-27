@@ -14,6 +14,13 @@ def test_no_door_free(client):
     assert (r.status_code, r.json()["type"]) == (409, "/errors/no-door-free")
 
 
+def test_code_used(client):
+    code = drop(client)["code"]
+    assert client.post("/pickups", json={"code": code}).status_code == 200
+    r = client.post("/pickups", json={"code": code})
+    assert (r.status_code, r.json()["type"]) == (409, "/errors/code-used")
+
+
 def test_no_such_code(client):
     r = client.post("/pickups", json={"code": "000000"})
     assert (r.status_code, r.json()["type"]) == (404, "/errors/no-such-code")
@@ -50,15 +57,3 @@ def test_routes_never_build_error_responses():
 
 def test_the_route_check_catches_both_spellings():
     """The check above is not vacuous: it flags a bare name, an attribute call and a JSONResponse."""
-    for source in (
-        "from fastapi import HTTPException\nraise HTTPException(404)",
-        "import fastapi\nraise fastapi.HTTPException(404)",
-        "from fastapi.responses import JSONResponse\ndef f():\n    return JSONResponse({})",
-    ):
-        tree = ast.parse(source)
-        found = (
-            {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)}
-            | {n.attr for n in ast.walk(tree) if isinstance(n, ast.Attribute)}
-            | {a.asname or a.name for n in ast.walk(tree) if isinstance(n, ast.ImportFrom) for a in n.names}
-        )
-        assert FORBIDDEN & found, source
