@@ -1,4 +1,4 @@
-"""A courier books a drop. Door choice, parcel and code are one transaction."""
+"""A courier books a drop. Door choice, parcel, code and events are one transaction."""
 from datetime import timedelta
 
 from sqlalchemy import select
@@ -8,6 +8,7 @@ from ..clock import Clock
 from ..errors import NoDoorFree, NoSuchFlat
 from ..models import Door, Parcel, Resident, Tower
 from ..settings import Settings
+from . import events
 from .codes import hash_code, issue_code
 from .doors import free_sizes
 
@@ -61,5 +62,7 @@ def drop(session: Session, tower: Tower, size_class: str, flat: str, clock: Cloc
     session.add(parcel)
     session.flush()
     door.current_parcel_id = parcel.id
+    events.record(session, tower.id, parcel.id, "dropped", now, {"door": door.no})
+    events.record(session, tower.id, parcel.id, "code_issued", now, {"expires_at": expires_at.strftime("%Y-%m-%dT%H:%M:%SZ")})
     session.commit()
     return parcel, door, code
