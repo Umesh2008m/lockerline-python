@@ -57,6 +57,10 @@ class DropOut(BaseModel):
     expires_at: UtcZ
 
 
+class PickupIn(BaseModel):
+    code: str = Field(pattern=r"^\d{6}$")
+
+
 class ParcelOut(BaseModel):
     parcel_id: str
     state: Literal["holding", "collected"]
