@@ -94,3 +94,7 @@ class ParcelOut(BaseModel):
 class SettingsOut(BaseModel):
     free_window_hours: int
     sizes: list[SizeClass]
+
+
+class HealthOut(BaseModel):
+    status: Literal["ok"]
