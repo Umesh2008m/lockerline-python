@@ -54,6 +54,13 @@ class CodeExpired(DomainError):
 # (status, type, title) of the errors that are not domain refusals
 VALIDATION_BODY = (422, "/errors/validation", "The request body is not valid")          # a body that fails validation
 VALIDATION_PARAMS = (400, "/errors/validation", "Invalid query parameter")               # an unknown filter value
+VALIDATION_BODY = (422, "/errors/validation", "The request body is not valid")          # a body that fails validation
+VALIDATION_PARAMS = (400, "/errors/validation", "Invalid query parameter")               # an unknown filter value
+INTERNAL = (500, "/errors/internal", "Something went wrong")
+NOT_FOUND = (404, "/errors/not-found", "No such resource")                              # no route at this path
+METHOD_NOT_ALLOWED = (405, "/errors/method-not-allowed", "Method not allowed")
+HTTP = "/errors/http"
+
 NOT_FOUND = (404, "/errors/not-found", "No such resource")                              # no route at this path
 METHOD_NOT_ALLOWED = (405, "/errors/method-not-allowed", "Method not allowed")
 HTTP = "/errors/http"
