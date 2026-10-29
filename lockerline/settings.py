@@ -1,6 +1,6 @@
-"""One settings object, read once at start-up. Nothing is hard-coded.
+"""One settings object, read once at start-up. Nothing is hard-coded; an env-file can feed it.
 
-Every field here has a default; the environment can change it. This module imports nothing from FastAPI, so the services that read the
+Every field here is listed in .env.example. This module imports nothing from FastAPI, so the services that read the
 settings stay free of the web framework; the request dependency lives in routers/__init__.py.
 """
 from pydantic import Field

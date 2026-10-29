@@ -33,5 +33,6 @@ def test_dockerfile_matches_the_contract():
     assert text.startswith("# The app as an image.") and "FROM python:3.12-slim" in text
     assert "RUN pip install --no-cache-dir -r requirements.lock" in text
     assert re.search(r"ENV HOST=0\.0\.0\.0 \\\n\s+PORT=8080 \\", text)
+    assert "DATABASE_URL" not in text, "the env-file carries the database path; nothing else is baked in"
     assert 'CMD ["sh", "-c", "exec uvicorn lockerline.app:app --host \\"$HOST\\" --port \\"$PORT\\""]' in text
-    assert "EXPOSE 8080" in text
+    assert 'VOLUME ["/data"]' in text and "EXPOSE 8080" in text
