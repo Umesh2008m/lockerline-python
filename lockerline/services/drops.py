@@ -14,7 +14,7 @@ from .doors import free_sizes
 
 
 def choose_door(session: Session, tower_id: int, size_class: str) -> Door | None:
-    """Exact size only, lowest door number first — deterministic, so a test can name the door."""
+    """Exact size only, lowest door number first — deterministic, so the rule table can name the door."""
     return session.scalar(
         select(Door)
         .where(Door.tower_id == tower_id, Door.size_class == size_class, Door.current_parcel_id.is_(None))

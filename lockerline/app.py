@@ -20,6 +20,7 @@ from .handlers import (
     install_handlers,
 )
 from .routers import doors, drops, parcels, pickups
+from .routers import settings as settings_router
 from .services.seed import seed
 from .settings import Settings
 
@@ -97,7 +98,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     install_handlers(app)
 
-    for r in (doors.router, drops.router, pickups.router, parcels.router):
+    for r in (doors.router, drops.router, pickups.router, parcels.router, settings_router.router):
         app.include_router(r)
 
     app.mount("/static", StaticFiles(directory=STATIC), name="static")

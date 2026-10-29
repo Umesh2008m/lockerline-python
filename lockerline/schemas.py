@@ -89,3 +89,8 @@ class ParcelOut(BaseModel):
     flat: str
     dropped_at: UtcZ
     events: list[EventOut]
+
+
+class SettingsOut(BaseModel):
+    free_window_hours: int
+    sizes: list[SizeClass]
