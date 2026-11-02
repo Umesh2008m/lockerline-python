@@ -27,40 +27,9 @@ class NoSuchDoor(DomainError):
     status, type, title = 404, "/errors/no-such-door", "No such door"
 
 
-class NoSuchParcel(DomainError):
-    status, type, title = 404, "/errors/no-such-parcel", "No such parcel"
-
-
-class NoSuchFlat(DomainError):
-    status, type, title = 400, "/errors/no-such-flat", "No such flat in this tower"
-
-
-class NoDoorFree(DomainError):
-    status, type, title = 409, "/errors/no-door-free", "No free door of that size"
-
-
-class CodeUsed(DomainError):
-    status, type, title = 409, "/errors/code-used", "This code has already opened its door"
-
-
-class NoSuchCode(DomainError):
-    status, type, title = 404, "/errors/no-such-code", "No such code"
-
-
-class CodeExpired(DomainError):
-    status, type, title = 404, "/errors/code-expired", "This code has expired"
-
-
 # (status, type, title) of the errors that are not domain refusals
 VALIDATION_BODY = (422, "/errors/validation", "The request body is not valid")          # a body that fails validation
 VALIDATION_PARAMS = (400, "/errors/validation", "Invalid query parameter")               # an unknown filter value
-VALIDATION_BODY = (422, "/errors/validation", "The request body is not valid")          # a body that fails validation
-VALIDATION_PARAMS = (400, "/errors/validation", "Invalid query parameter")               # an unknown filter value
-INTERNAL = (500, "/errors/internal", "Something went wrong")
 NOT_FOUND = (404, "/errors/not-found", "No such resource")                              # no route at this path
 METHOD_NOT_ALLOWED = (405, "/errors/method-not-allowed", "Method not allowed")
-HTTP = "/errors/http"
-
-NOT_FOUND = (404, "/errors/not-found", "No such resource")                              # no route at this path
-METHOD_NOT_ALLOWED = (405, "/errors/method-not-allowed", "Method not allowed")
-HTTP = "/errors/http"
+HTTP = "/errors/http"                                                                   

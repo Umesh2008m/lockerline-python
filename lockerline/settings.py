@@ -1,6 +1,6 @@
-"""One settings object, read once at start-up. Nothing is hard-coded; an env-file can feed it.
+"""One settings object, read once at start-up. Nothing is hard-coded.
 
-Every field here is listed in .env.example. This module imports nothing from FastAPI, so the services that read the
+Every field here has a default; the environment can change it. This module imports nothing from FastAPI, so the services that read the
 settings stay free of the web framework; the request dependency lives in routers/__init__.py.
 """
 from pydantic import Field
@@ -15,8 +15,9 @@ class Settings(BaseSettings):
     )
 
     database_url: str = Field("sqlite:///./lockerline.db", min_length=1)
-    free_window_hours: int = Field(48, ge=1)                # how long a pickup code stays valid
+    free_window_hours: int = Field(48, ge=1)                # the free window, in hours
     seed_dir: str = Field("seed", min_length=1)
     host: str = Field("0.0.0.0", min_length=1)              # the address uvicorn binds
     port: int = Field(8080, ge=1, le=65535)
-    code_hash_key: str = Field("dev-only-change-me", min_length=1)  # keyed SHA-256 for pickup codes
+
+     

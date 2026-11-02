@@ -1,19 +1,16 @@
 from fastapi import APIRouter
 
-from ..errors import NoSuchDoor, NoSuchTower
-from ..handlers import FILTER_RESPONSE, responses
 from ..schemas import DoorOut, DoorsOut, DoorState, SizeClass
 from ..services import doors
 from . import ClockDep, SessionDep
 
-router = APIRouter(prefix="/towers/{tower}/doors", tags=["doors"])
+router = APIRouter(prefix="/towers/{tower}/doors")
 
 
 @router.get(
     "",
     response_model=DoorsOut,
-    response_model_exclude_none=True, summary="The wall: every door with its derived state",
-    responses={**FILTER_RESPONSE, **responses((NoSuchTower, "There is no tower 'Z'"))},
+    response_model_exclude_none=True,
 )
 def list_doors(
     tower: str,
@@ -27,9 +24,8 @@ def list_doors(
 
 @router.get(
     "/{no}",
-    response_model=DoorOut, summary="One door",
+    response_model=DoorOut,
     response_model_exclude_none=True,
-    responses=responses((NoSuchDoor, "There is no door 'D99' in tower A"), (NoSuchTower, "There is no tower 'Z'")),
 )
 def get_door(tower: str, no: str, session: SessionDep, clock: ClockDep) -> DoorOut:
     return doors.get_door(session, tower, no, clock)
