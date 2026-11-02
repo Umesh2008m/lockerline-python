@@ -1,4 +1,4 @@
-"""Request and response models. Every response goes through one of these.
+"""Request and response models. Every response goes through one of these; bodies use Field constraints.
 Optional fields are left out of the body when they have no value (the routes use response_model_exclude_none)."""
 from datetime import datetime, timezone
 from typing import Annotated, Literal
@@ -40,3 +40,25 @@ class DoorsOut(BaseModel):
         description="How many of the doors in this answer (after the filters) are free",
     )
     doors: list[DoorListItem]
+
+
+class DropIn(BaseModel):
+    size_class: SizeClass
+    flat: str = Field(min_length=1, max_length=8, pattern=r"^[0-9A-Za-z-]+$")
+
+
+class DropOut(BaseModel):
+    parcel_id: str
+    door: str
+    size_class: SizeClass
+    flat: str
+    dropped_at: UtcZ
+
+
+class ParcelOut(BaseModel):
+    parcel_id: str
+    state: Literal["holding", "collected"]
+    door: str
+    size_class: SizeClass
+    flat: str
+    dropped_at: UtcZ
